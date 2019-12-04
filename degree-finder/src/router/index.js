@@ -15,17 +15,17 @@ export default new Router({
       component: Index
     },
     {
-      path: 'by-degree',
+      path: '/by-degree',
       name: 'ByDegree',
       component: ByDegree
     },
     {
-      path: 'by-school',
+      path: '/by-school',
       name: 'BySchool',
       component: BySchool
     },
     {
-      path: 'by-category',
+      path: '/by-category',
       name: 'ByCategory',
       component: ByCategory
     }

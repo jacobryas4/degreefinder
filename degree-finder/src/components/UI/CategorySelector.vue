@@ -5,12 +5,13 @@
             <div class="w-100">
                 <h1 class="text-center">Select a Category</h1>
             <form @submit.prevent="AddCategory">
-                <select class="form-control form-control-lg" name="category" v-model="category">
-                    <option value="Opt 1">Opt 1</option>
-                    <option value="Opt 2">Opt 2</option>
-                    <option value="Opt 3">Opt 3</option>
-                    <option value="Opt 4">Opt 4</option>
-                    <option value="Opt 5">Opt 5</option>
+                <select class="form-control form-control-lg" name="category" v-model="category" @change="categorySelected">
+                    <option value="Business">Business</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Nursing and Healthcare">Nursing and Healthcare</option>
+                    <option value="Psychology and Social Work">Psychology and Social Work</option>
+                    <option value="Criminal Justice">Criminal Justice</option>
+                    <option value="General Studies">General Studies</option>
                 </select>
                 <button class="btn btn-primary m-3">Confirm identity</button>
             </form>
@@ -30,8 +31,9 @@ export default {
         }
     },
     methods: {
-        AddCategory() {
-            
+        categorySelected() {
+            console.log('here')
+            this.$emit('categorySelected', this.category)
         }
     }
 }
