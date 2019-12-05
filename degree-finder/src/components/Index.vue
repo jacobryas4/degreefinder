@@ -43,17 +43,31 @@
 </template>
 
 <script>
+import Spinner from '@/components/UI/Spinner'
+
 export default {
     name: 'Index',
+    components: {
+        Spinner
+    },
     data () {
         return {
-
+            loading: true
         }
+    },
+    methods: {
+        // init() {
+        //     setTimeout(() => {
+        //         this.loading = false
+        //     }, 3000)
+        // }
     }
     
 }
 </script>
 
 <style>
-
+.container {
+    min-height: 300px;
+}
 </style>

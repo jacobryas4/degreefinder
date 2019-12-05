@@ -28,7 +28,8 @@ export default {
                 {degreeCategory: 'Business', degrees: ['Accounting', 'Business Management', 'Human Resource Managment']},
                 {degreeCategory: 'Computer Science', degrees: ['Computer Science', 'Information Technology']}
             ],
-            categoryDegrees: null
+            categoryDegrees: null,
+            schools: ['Liberty University', 'Colorado State University', 'Indiana Wesleyan University', 'Trident University', 'Indiana Tech']
         }
     },
     methods: {

@@ -17,14 +17,20 @@
             </form>
 
             </div>
+            
         </div>
     </div>
 
 </template>
 
 <script>
+import Spinner from '@/components/UI/Spinner'
+
 export default {
     name: 'CategorySelector',
+    components: {
+        Spinner
+    },
     data () {
         return {
             category: null
