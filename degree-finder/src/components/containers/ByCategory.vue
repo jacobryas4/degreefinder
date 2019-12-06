@@ -14,6 +14,7 @@
 <script>
 import CategorySelector from '@/components/UI/CategorySelector'
 import DegreeSelector from '@/components/UI/DegreeSelector'
+import db from '@/firebase/init'
 
 export default {
     name: 'ByCategory',

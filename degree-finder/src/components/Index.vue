@@ -44,6 +44,7 @@
 
 <script>
 import Spinner from '@/components/UI/Spinner'
+import db from '@/firebase/init'
 
 export default {
     name: 'Index',
@@ -56,18 +57,23 @@ export default {
         }
     },
     methods: {
-        // init() {
-        //     setTimeout(() => {
-        //         this.loading = false
-        //     }, 3000)
-        // }
+        init() {
+           
+        }
+    },
+    created() {
+        db.collection('degrees').where('category','==', 'Business').get()
+            .then((snapshot) => {
+                snapshot.forEach(doc => {
+                    console.log(doc.data())
+                })
+                
+            })
     }
     
 }
 </script>
 
 <style>
-.container {
-    min-height: 300px;
-}
+
 </style>
