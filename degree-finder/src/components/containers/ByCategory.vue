@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row d-flex">
-            <div class="col-md-6 pt-5 m-auto">
+            <div class="col-md-10 pt-5 m-auto">
                 <CategorySelector v-on:categorySelected="updateCategory($event)" />
                 <DegreeSelector v-if="category" v-bind:category="category" v-bind:categoryDegrees="categoryDegrees"/>
             </div>

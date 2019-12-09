@@ -13,7 +13,6 @@
                     <option value="Criminal Justice">Criminal Justice</option>
                     <option value="General Studies">General Studies</option>
                 </select>
-                <button class="btn btn-primary m-3">Confirm identity</button>
             </form>
 
             </div>
@@ -38,7 +37,6 @@ export default {
     },
     methods: {
         categorySelected() {
-            console.log('here')
             this.$emit('categorySelected', this.category)
         }
     }

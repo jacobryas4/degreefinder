@@ -1,14 +1,13 @@
 <template>
     <div>
         <h1>Degree Selector</h1>
-        <p v-for="degree in degreesOffered">{{degree.degreeName}}</p>
-        <div class="card" style="width: 18rem;" v-for="degree in degreesOffered">
-            <div class="card-body">
-                <h5 class="card-title">{{degree.degreeName}}</h5>
-                <p class="card-text">{{degree.desc}}</p>
-                <button type="button" class="btn btn-primary" v-for="school in degree.offeredBy">{{school.schoolName}}</button>
-            </div>
+        {{this.selectedCategory}}
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action" v-for="degree in degreesOffered">
+                {{degree.degreeName}} <span class="badge badge-primary m-1" v-for="school in degree.offeredBy">{{school.schoolName}}</span>
+            </a>
         </div>
+        
     </div>
 </template>
 
@@ -23,8 +22,8 @@ export default {
     ],
     data() {
         return {
-            selectedCategory: this.category,
-            degreesOffered: []
+            degreesOffered: [],
+            selectedCategory: this.category
         }
     },
     beforeMount() {
