@@ -1,13 +1,14 @@
 <template>
     <div>
         <h1>Degree Selector</h1>
-        {{this.category}}
         <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action" v-for="degree in degreesOffered">
-                {{degree.degreeName}} <span class="badge badge-primary m-1">{{degree.offeredBy.length}}</span>
+            <a href="#" 
+               class="list-group-item list-group-item-action" 
+               v-for="degree in degreesOffered"
+               @click.prevent="degreeSelected(degree.degreeName)">
+                <h5>{{degree.degreeName}}</h5> <span class="badge badge-primary m-1">{{degree.schoolTotal}} Schools</span>
             </a>
         </div>
-        
     </div>
 </template>
 
@@ -25,8 +26,10 @@ export default {
             
         }
     },
-    beforeUpdate() {
-        
+    methods: {
+        degreeSelected(degreeName) {
+            this.$emit('degreeSelected', degreeName)
+        }
     }
 } 
 </script>

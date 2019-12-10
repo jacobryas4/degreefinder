@@ -14,9 +14,7 @@
                     <option value="General Studies">General Studies</option>
                 </select>
             </form>
-
             </div>
-            
         </div>
     </div>
 
