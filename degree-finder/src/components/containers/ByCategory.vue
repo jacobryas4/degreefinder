@@ -85,7 +85,8 @@ export default {
             this.chosenSchool = school
             
             // filter schoolsDegInfo for only the selected school's info
-            this.chosenSchoolDegInfo = this.schoolsDegInfo.filter((item) => item.schoolName === this.chosenSchool )
+            let thisSchoolsInfo = this.schoolsDegInfo.filter((item) => item.schoolName === this.chosenSchool )
+            this.chosenSchoolDegInfo = thisSchoolsInfo[0]
         }
     }
 }
