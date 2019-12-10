@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>Degree Selector</h1>
-        {{this.selectedCategory}}
+        {{this.category}}
         <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action" v-for="degree in degreesOffered">
-                {{degree.degreeName}} <span class="badge badge-primary m-1" v-for="school in degree.offeredBy">{{school.schoolName}}</span>
+                {{degree.degreeName}} <span class="badge badge-primary m-1">{{degree.offeredBy.length}}</span>
             </a>
         </div>
         
@@ -18,23 +18,15 @@ export default {
     name: 'DegreeSelector',
     props: [
         'category',
-        'categoryDegrees'
+        'degreesOffered'
     ],
     data() {
         return {
-            degreesOffered: [],
-            selectedCategory: this.category
+            
         }
     },
-    beforeMount() {
-        db.collection('degrees').where('category','==', this.selectedCategory).get()
-            .then((snapshot) => {
-                snapshot.forEach(doc => {
-                    console.log(doc.data())
-                    this.degreesOffered.push(doc.data())
-                })
-                
-            })
+    beforeUpdate() {
+        
     }
 } 
 </script>
