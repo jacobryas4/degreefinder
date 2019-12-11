@@ -2,20 +2,41 @@
     <div class="container">
         <div class="row d-flex">
             <div class="col-md-10 pt-5 m-auto">
-                <CategorySelector 
-                    v-on:categorySelected="updateCategory($event)" 
-                    v-if="showCategorySelector"/>
+                <transition name="fade">
+                    <CategorySelector 
+                        v-on:categorySelected="updateCategory($event)" 
+                        v-if="showCategorySelector"/>
+                </transition>
+                
                 <br>
-                <DegreeSelector 
-                    v-if="showDegreeSelector" 
-                    v-bind:category="category" 
-                    v-bind:degreesOffered="degreesOffered"
-                    v-on:degreeSelected="updateDegree($event)" />
+
+                <transition name="fade">
+                    <DegreeSelector 
+                        v-if="showDegreeSelector" 
+                        v-bind:category="category" 
+                        v-bind:degreesOffered="degreesOffered"
+                        v-on:degreeSelected="updateDegree($event)" />
+                </transition>
+                
                 <br>
-                <SchoolSelector 
-                    v-if="showSchoolSelector"
-                    v-bind:schoolsOffering="schoolsOffering"
-                    v-on:schoolSelected="updateSchool($event)" />
+
+                <transition name="fade">
+                    <SchoolSelector 
+                        v-if="showSchoolSelector"
+                        v-bind:schoolsOffering="schoolsOffering"
+                        v-on:schoolSelected="updateSchool($event)" />
+                </transition>
+                
+                <br>
+
+                <transition name="fade">
+                    <DegreeInfo
+                        v-if="chosenSchoolDegInfo"
+                        v-bind:chosenSchoolDegInfo="chosenSchoolDegInfo"
+                        v-bind:degreeName="chosenDegree[0].degreeName"
+                        v-bind:schoolName="chosenSchool" />
+                </transition>
+                
             </div>
         </div>
     </div>
@@ -25,6 +46,7 @@
 import CategorySelector from '@/components/UI/CategorySelector'
 import DegreeSelector from '@/components/UI/DegreeSelector'
 import SchoolSelector from '@/components/UI/SchoolSelector'
+import DegreeInfo from '@/components/UI/DegreeInfo'
 import db from '@/firebase/init'
 
 export default {
@@ -32,7 +54,8 @@ export default {
     components: {
         CategorySelector,
         DegreeSelector,
-        SchoolSelector
+        SchoolSelector,
+        DegreeInfo
     },
     data () {
         return {
@@ -61,37 +84,57 @@ export default {
 
             // this updates the category, queries the database and returns degrees to pass to DegreeSelector
             db.collection('degrees').where('category','==', this.category).get()
-            .then((snapshot) => {
-                snapshot.forEach(doc => {
-                    console.log(doc.data())
-                    let degree = { degreeName: doc.data().degreeName, schoolTotal: doc.data().offeredBy.length}
-                    this.degreesOffered.push(degree)
-                    doc.data().offeredBy.forEach(schoolObj => {
-                        this.schoolsOffering.push(schoolObj.schoolName)
-                        this.schoolsDegInfo.push(schoolObj)
+                .then((snapshot) => {
+                    console.log(snapshot)
+                    snapshot.forEach(doc => {
+                        console.log(doc.data())
+                        console.log(doc.id)
+                        let degree = { 
+                            degreeName: doc.data().degreeName, 
+                            schoolTotal: doc.data().offeredBy.length,
+                            degreeId: doc.id
+                        }
+                        this.degreesOffered.push(degree)
+                        doc.data().offeredBy.forEach(schoolName => {
+                            this.schoolsOffering.push(schoolName)
+                        })
                     })
                 })
-            })
 
             // show DegreeSelector component
             this.showDegreeSelector = true
         },
         updateDegree(newDegree) {
-            this.chosenDegree = newDegree
+            this.chosenDegree = this.degreesOffered.filter((item) => {
+                return item.degreeName = newDegree
+            })
             this.showSchoolSelector = true
         },
         updateSchool(school) {
             // set chosenSchool in state
             this.chosenSchool = school
             
-            // filter schoolsDegInfo for only the selected school's info
-            let thisSchoolsInfo = this.schoolsDegInfo.filter((item) => item.schoolName === this.chosenSchool )
-            this.chosenSchoolDegInfo = thisSchoolsInfo[0]
+            // query db to get schools info for that degree
+            db.collection('degrees').doc(this.chosenDegree[0].degreeId)
+                .collection('schoolsOffering').doc(this.chosenSchool).get()
+                    .then((snapshot) => {
+                        console.log(snapshot.data())
+                        this.chosenSchoolDegInfo = snapshot.data()
+                    })
+
+            
         }
     }
 }
 </script>
 
 <style>
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 </style>
