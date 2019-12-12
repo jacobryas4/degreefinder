@@ -2,12 +2,13 @@
     <div>
         <h1>Degree Selector</h1>
         <div class="list-group">
-            <a href="#" 
-               class="list-group-item list-group-item-action" 
-               v-for="degree in degreesOffered"
-               @click.prevent="degreeSelected(degree.degreeName)">
-                <h5>{{degree.degreeName}}</h5> <span class="badge badge-primary m-1">{{degree.schoolTotal}} Schools</span>
-            </a>
+            <li href="#" 
+               class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
+               v-for="(degree, index) in degreesOffered"
+               @click.prevent="degreeSelected(degree.degreeName)"
+               v-bind:key="index">
+                <h5>{{degree.degreeName}}</h5><span class="badge badge-primary badge-pill">{{degree.schoolTotal}} Schools</span>
+            </li>
         </div>
     </div>
 </template>

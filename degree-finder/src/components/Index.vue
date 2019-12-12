@@ -55,22 +55,7 @@ export default {
         return {
             loading: true
         }
-    },
-    methods: {
-        init() {
-           
-        }
-    },
-    created() {
-        db.collection('degrees').where('category','==', 'Business').get()
-            .then((snapshot) => {
-                snapshot.forEach(doc => {
-                    console.log(doc.data())
-                })
-                
-            })
     }
-    
 }
 </script>
 
