@@ -2,7 +2,6 @@
     <div class="col-md-12">
 
         <h1 class="display-4">{{this.degreeName}}</h1>
-        <h5>{{this.chosenSchoolDegInfo.admReq}}</h5>
 
         <br>
         
@@ -28,7 +27,7 @@
                 <tbody>
                     <tr v-for="(course,index) in chosenSchoolDegInfo.dlsiCourses.genEd" v-bind:key="index">
                         <td>{{course}}</td>
-                        <td>{{chosenSchoolDegInfo.schoolEquivCourses[index]}}</td>
+                        <td>{{chosenSchoolDegInfo.schoolCourses.equivCourses[index]}}</td>
                     </tr>
                 </tbody>
               </table>
@@ -39,13 +38,26 @@
           <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
               <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Collapsible Group Item #2
+                General Electives
               </button>
             </h2>
           </div>
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">DLSI Elective Courses</th>
+                        <th scope="col">{{this.schoolName}} Equivalent Courses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(course,index) in chosenSchoolDegInfo.dlsiCourses.electives" v-bind:key="index">
+                        <td>{{course}}</td>
+                        <td>{{chosenSchoolDegInfo.schoolCourses.genElectives[index]}}</td>
+                    </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -53,13 +65,27 @@
             <div class="card-header" id="headingThree">
               <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Collapsible Group Item #3
+                  Admission Requirements
                 </button>
               </h2>
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
               <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <p>{{this.chosenSchoolDegInfo.admReq}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingFour">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  Transfer Requirements
+                </button>
+              </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+              <div class="card-body">
+                <p v-for="(req, index) in chosenSchoolDegInfo.transferReq" v-bind:key=index>{{chosenSchoolDegInfo.transferReq[index]}}</p>
               </div>
             </div>
           </div>

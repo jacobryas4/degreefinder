@@ -2,13 +2,21 @@
     <div>
         <h1>Degree Selector</h1>
         <div class="list-group">
-            <li href="#" 
-               class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
-               v-for="(degree, index) in degreesOffered"
-               @click.prevent="degreeSelected(degree.degreeName)"
-               v-bind:key="index">
-                <h5>{{degree.degreeName}}</h5><span class="badge badge-primary badge-pill">{{degree.schoolTotal}} Schools</span>
-            </li>
+            <transition name="fade">
+                <li href="#" 
+                    class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
+                    v-for="(degree, index) in degreesOffered"
+                    @click.prevent="degreeSelected(degree.degreeName)"
+                    v-bind:key="index">
+                    <h5>{{degree.degreeName}}</h5>
+                        <div>
+                            <span class="badge badge-primary">{{degree.schoolTotal}} Schools</span>
+                            <span class="badge badge-secondary badge-pill">Bachelors</span>
+                            <span class="badge badge-secondary badge-pill">Associates</span>
+                        </div>
+                    
+                </li>
+            </transition>
         </div>
     </div>
 </template>
@@ -36,5 +44,12 @@ export default {
 </script>
 
 <style>
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 </style>
