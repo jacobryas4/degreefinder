@@ -103,6 +103,11 @@ export default {
 
             // show DegreeSelector component
             this.showDegreeSelector = true
+            // clear schoolsOffering
+            this.schoolsOffering = []
+            // unmount other components
+            this.showSchoolSelector = false
+            
         },
         updateDegree(newDegree) {
             this.chosenDegree = this.degreesOffered.filter((item) => {

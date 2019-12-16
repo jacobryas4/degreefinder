@@ -39,17 +39,20 @@
                 </div>
             </div>
         </div>
+        <AddDegree />
     </div>
 </template>
 
 <script>
 import Spinner from '@/components/UI/Spinner'
+import AddDegree from '@/components/containers/AddDegree'
 import db from '@/firebase/init'
 
 export default {
     name: 'Index',
     components: {
-        Spinner
+        Spinner,
+        AddDegree
     },
     data () {
         return {
