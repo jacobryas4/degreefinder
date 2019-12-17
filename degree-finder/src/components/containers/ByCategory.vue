@@ -92,7 +92,9 @@ export default {
                         let degree = { 
                             degreeName: doc.data().degreeName, 
                             schoolTotal: doc.data().offeredBy.length,
-                            degreeId: doc.id
+                            degreeId: doc.id,
+                            associates: doc.data().associates,
+                            bachelors: doc.data().bachelors
                         }
                         this.degreesOffered.push(degree)
                         doc.data().offeredBy.forEach(schoolName => {
@@ -110,9 +112,12 @@ export default {
             
         },
         updateDegree(newDegree) {
+            // filter through degrees to get data for the chosen one
             this.chosenDegree = this.degreesOffered.filter((item) => {
                 return item.degreeName = newDegree
             })
+
+            // show the school selector
             this.showSchoolSelector = true
         },
         updateSchool(school) {

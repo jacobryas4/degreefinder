@@ -2,21 +2,25 @@
     <div>
         <h1>Degree Selector</h1>
         <div class="list-group">
-            <transition name="fade">
+            <transition-group name="fade">
                 <li href="#" 
                     class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
                     v-for="(degree, index) in degreesOffered"
                     @click.prevent="degreeSelected(degree.degreeName)"
-                    v-bind:key="index">
+                    v-bind:key="degree.degreeId">
                     <h5>{{degree.degreeName}}</h5>
                         <div>
+                            <span class="badge badge-secondary badge-pill" v-if="degree.bachelors">Bachelors</span>
+                            <span class="badge badge-secondary badge-pill" v-if="degree.associates">Associates</span>
                             <span class="badge badge-primary">{{degree.schoolTotal}} Schools</span>
-                            <span class="badge badge-secondary badge-pill">Bachelors</span>
-                            <span class="badge badge-secondary badge-pill">Associates</span>
                         </div>
                     
                 </li>
-            </transition>
+            </transition-group>
+        </div>
+        <div v-if="showDegreeTypeSelector">
+            <h2>Select Degree Type</h2>
+
         </div>
     </div>
 </template>
@@ -32,7 +36,9 @@ export default {
     ],
     data() {
         return {
-            
+            showDegreeTypeSelector: false,
+            degrees: null,
+            chosenDegree: null
         }
     },
     methods: {

@@ -90,7 +90,9 @@ export default {
                     "Liberty University",
                     "Indiana Tech",
                     "Colorado State"
-                ]
+                ],
+                associates: true,
+                bachelors: false
             }
         }
     },
@@ -110,7 +112,7 @@ export default {
         },
         postDegreeHandler() {
 
-            db.collection('degrees').add()
+            db.collection('degrees').add(this.degreeObj)
 
         }
     }
