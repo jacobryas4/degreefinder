@@ -3,24 +3,23 @@
         <h1>Degree Selector</h1>
         <div class="list-group">
             <transition-group name="fade">
-                <li href="#" 
-                    class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
+                <li class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
                     v-for="(degree, index) in degreesOffered"
                     @click.prevent="degreeSelected(degree.degreeName)"
                     v-bind:key="degree.degreeId">
                     <h5>{{degree.degreeName}}</h5>
                         <div>
-                            <span class="badge badge-secondary badge-pill" v-if="degree.bachelors">Bachelors</span>
-                            <span class="badge badge-secondary badge-pill" v-if="degree.associates">Associates</span>
-                            <span class="badge badge-primary">{{degree.schoolTotal}} Schools</span>
+                            <!-- <span class="badge badge-secondary badge-pill" v-if="degree.bachelors">Bachelors</span> -->
+                            <button type="button" class="btn btn-primary" v-if="degree.bachelors">
+                                Bachelors <span class="badge badge-light">{{degree.bachelors.length}} Schools</span>
+                            </button>
+                            <button type="button" class="btn btn-secondary" v-if="degree.associates">
+                                Associates <span class="badge badge-light">{{degree.associates.length}} Schools</span>
+                            </button>
                         </div>
                     
                 </li>
             </transition-group>
-        </div>
-        <div v-if="showDegreeTypeSelector">
-            <h2>Select Degree Type</h2>
-
         </div>
     </div>
 </template>
@@ -52,7 +51,7 @@ export default {
 <style>
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity .25s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

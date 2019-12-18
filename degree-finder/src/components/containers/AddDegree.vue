@@ -86,11 +86,10 @@ export default {
                 category: 'Business',
                 degreeName: 'Accounting',
                 desc: "Here is a big o description for the degree",
-                offeredBy: [
-                    "Liberty University",
-                    "Indiana Tech",
-                    "Colorado State"
-                ],
+                offeredBy: {
+                    associates: ["Liberty University", "Indiana Tech"],
+                    bachelors: ["Liberty University"]
+                },
                 associates: true,
                 bachelors: false
             }

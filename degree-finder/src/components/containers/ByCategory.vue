@@ -67,7 +67,10 @@ export default {
             showDegreeSelector: false,
             showCategorySelector: true,
             showSchoolSelector: false,
-            schoolsOffering: [],
+            schoolsOffering: {
+                associates: [],
+                bachelors: []
+            },
             chosenSchool: null,
             schoolsDegInfo: [],
             chosenSchoolDegInfo: null
@@ -91,15 +94,18 @@ export default {
                         console.log(doc.id)
                         let degree = { 
                             degreeName: doc.data().degreeName, 
-                            schoolTotal: doc.data().offeredBy.length,
                             degreeId: doc.id,
-                            associates: doc.data().associates,
-                            bachelors: doc.data().bachelors
+                            associates: [],
+                            bachelors: []
                         }
-                        this.degreesOffered.push(degree)
-                        doc.data().offeredBy.forEach(schoolName => {
-                            this.schoolsOffering.push(schoolName)
+                        doc.data().offeredBy.associates.forEach(item => {
+                            degree.associates.push(item)
                         })
+                        doc.data().offeredBy.bachelors.forEach(item => {
+                            degree.bachelors.push(item)
+                        })
+                        this.degreesOffered.push(degree)
+                        
                     })
                 })
 
@@ -114,8 +120,12 @@ export default {
         updateDegree(newDegree) {
             // filter through degrees to get data for the chosen one
             this.chosenDegree = this.degreesOffered.filter((item) => {
-                return item.degreeName = newDegree
+                return item.degreeName === newDegree
             })
+
+            // set degreesOffered to only have the chosen degree
+            this.degreesOffered = [...this.chosenDegree]
+
 
             // show the school selector
             this.showSchoolSelector = true
