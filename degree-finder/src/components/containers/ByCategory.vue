@@ -112,20 +112,29 @@ export default {
             // show DegreeSelector component
             this.showDegreeSelector = true
             // clear schoolsOffering
-            this.schoolsOffering = []
+            this.schoolsOffering = {
+                associates: [],
+                bachelors: []
+            }
             // unmount other components
             this.showSchoolSelector = false
             
         },
-        updateDegree(newDegree) {
+        updateDegree(payload) {
             // filter through degrees to get data for the chosen one
             this.chosenDegree = this.degreesOffered.filter((item) => {
-                return item.degreeName === newDegree
+                return item.degreeName === payload.deg
             })
 
+            console.log(payload.schls)
+            console.log(payload.deg)
+
             // set degreesOffered to only have the chosen degree
+            // This removes other degrees from the screen
             this.degreesOffered = [...this.chosenDegree]
 
+            // pass schools offering into state to be passed to school selector component
+            this.schoolsOffering = payload.schls
 
             // show the school selector
             this.showSchoolSelector = true

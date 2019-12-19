@@ -5,19 +5,17 @@
             <transition-group name="fade">
                 <li class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
                     v-for="(degree, index) in degreesOffered"
-                    @click.prevent="degreeSelected(degree.degreeName)"
                     v-bind:key="degree.degreeId">
                     <h5>{{degree.degreeName}}</h5>
                         <div>
                             <!-- <span class="badge badge-secondary badge-pill" v-if="degree.bachelors">Bachelors</span> -->
-                            <button type="button" class="btn btn-primary" v-if="degree.bachelors">
+                            <button type="button" class="btn btn-primary" v-if="degree.bachelors" @click.prevent="degreeSelected(degree.bachelors, degree.degreeName)">
                                 Bachelors <span class="badge badge-light">{{degree.bachelors.length}} Schools</span>
                             </button>
-                            <button type="button" class="btn btn-secondary" v-if="degree.associates">
+                            <button type="button" class="btn btn-secondary" v-if="degree.associates" @click.prevent="degreeSelected(degree.associates, degree.degreeName)">
                                 Associates <span class="badge badge-light">{{degree.associates.length}} Schools</span>
                             </button>
                         </div>
-                    
                 </li>
             </transition-group>
         </div>
@@ -41,8 +39,8 @@ export default {
         }
     },
     methods: {
-        degreeSelected(degreeName) {
-            this.$emit('degreeSelected', degreeName)
+        degreeSelected(schools, degree) {
+            this.$emit('degreeSelected', {schls: schools, deg: degree})
         }
     }
 } 
