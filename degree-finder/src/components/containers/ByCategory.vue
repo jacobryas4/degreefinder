@@ -5,14 +5,14 @@
                 <transition name="fade">
                     <CategorySelector 
                         v-on:categorySelected="updateCategory($event)" 
-                        v-if="showCategorySelector"/>
+                        v-if="showCategorySelector && !chosenSchoolDegInfo"/>
                 </transition>
                 
                 <br>
 
                 <transition name="fade">
                     <DegreeSelector 
-                        v-if="showDegreeSelector" 
+                        v-if="showDegreeSelector && !chosenSchoolDegInfo" 
                         v-bind:category="category" 
                         v-bind:degreesOffered="degreesOffered"
                         v-on:degreeSelected="updateDegree($event)" />
@@ -22,7 +22,7 @@
 
                 <transition name="fade">
                     <SchoolSelector 
-                        v-if="showSchoolSelector"
+                        v-if="showSchoolSelector && !chosenSchoolDegInfo"
                         v-bind:schoolsOffering="schoolsOffering"
                         v-on:schoolSelected="updateSchool($event)" />
                 </transition>
