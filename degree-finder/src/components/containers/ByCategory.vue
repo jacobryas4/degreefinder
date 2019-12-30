@@ -77,7 +77,7 @@ export default {
         }
     },
     methods: {
-        updateCategory(newCategory) {
+        async updateCategory(newCategory) {
 
             // set the category in state
             this.category = newCategory
@@ -86,7 +86,7 @@ export default {
             this.degreesOffered = []
 
             // this updates the category, queries the database and returns degrees to pass to DegreeSelector
-            db.collection('degrees').where('category','==', this.category).get()
+            await db.collection('degrees').where('category','==', this.category).get()
                 .then((snapshot) => {
                     console.log(snapshot)
                     snapshot.forEach(doc => {
