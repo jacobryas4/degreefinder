@@ -139,17 +139,17 @@ export default {
             // show the school selector
             this.showSchoolSelector = true
         },
-        updateSchool(school) {
+        async updateSchool(school) {
             // set chosenSchool in state
             this.chosenSchool = school
-            
+             
             // query db to get schools info for that degree
-            db.collection('degrees').doc(this.chosenDegree[0].degreeId)
-                .collection('schoolsOffering').doc(this.chosenSchool).get()
-                    .then((snapshot) => {
-                        console.log(snapshot.data())
-                        this.chosenSchoolDegInfo = snapshot.data()
-                    })
+            await db.collection('degrees').doc(this.chosenDegree[0].degreeId)
+                    .collection('schoolsOffering').doc(this.chosenSchool).get()
+                        .then((snapshot) => {
+                            console.log(snapshot.data())
+                            this.chosenSchoolDegInfo = snapshot.data()
+                        })
 
             
         }

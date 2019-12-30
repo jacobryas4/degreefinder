@@ -10,10 +10,10 @@
                         <div>
                             <!-- <span class="badge badge-secondary badge-pill" v-if="degree.bachelors">Bachelors</span> -->
                             <button type="button" class="btn btn-primary" v-if="degree.bachelors" @click.prevent="degreeSelected(degree.bachelors, degree.degreeName)">
-                                Bachelors <span class="badge badge-light">{{degree.bachelors.length}} Schools</span>
+                                Bachelors <span class="badge badge-light">{{degree.bachelors.length}}</span>
                             </button>
                             <button type="button" class="btn btn-secondary" v-if="degree.associates" @click.prevent="degreeSelected(degree.associates, degree.degreeName)">
-                                Associates <span class="badge badge-light">{{degree.associates.length}} Schools</span>
+                                Associates <span class="badge badge-light">{{degree.associates.length}}</span>
                             </button>
                         </div>
                 </li>
@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import db from '@/firebase/init'
-
 export default {
     name: 'DegreeSelector',
     props: [
