@@ -4,6 +4,7 @@ import Index from '@/components/Index'
 import ByDegree from '@/components/containers/ByDegree'
 import BySchool from '@/components/containers/BySchool'
 import ByCategory from '@/components/containers/ByCategory'
+import AddDegree from '@/components/containers/AddDegree'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/by-category',
       name: 'ByCategory',
       component: ByCategory
+    },
+    {
+      path: '/add-degree',
+      name: 'AddDegree',
+      component: AddDegree
     }
   ]
 })

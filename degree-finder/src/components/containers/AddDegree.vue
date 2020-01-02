@@ -1,7 +1,8 @@
 <template>
-    
-    <div>
-        <h2>Add a Degree</h2>
+    <div class="container add-degree mt-3">
+        <div class="row">
+        <div class="col-md-10 p-1">
+            <h2>Add a Degree</h2>
         <form @submit.prevent="AddDegree">
             <div class="form-group">
                 <label for="degree-category">Category</label>
@@ -35,7 +36,10 @@
             </div>
             <button class="btn btn-primary" type="submit">Add Degree</button>
         </form>
+        </div>
     </div>
+    </div>
+    
     
 
 </template>
@@ -60,7 +64,7 @@ export default {
     },
     methods: {
         AddDegree() {
-
+            // add new degree to firestore
             db.collection('degrees').add({
                 category: this.selectedCategory,
                 desc: this.degreeDesc,
@@ -96,5 +100,7 @@ export default {
 </script>
 
 <style scoped>
-
+.add-degree {
+    text-align: left;
+}
 </style>
