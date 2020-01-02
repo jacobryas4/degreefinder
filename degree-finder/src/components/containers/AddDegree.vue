@@ -2,27 +2,38 @@
     
     <div>
         <h2>Add a Degree</h2>
-        <form action="#">
+        <form @submit.prevent="AddDegree">
             <div class="form-group">
                 <label for="degree-category">Category</label>
-                <select class="form-control" id="degree-category">
-                    <option value="" v-for="(category, index) in this.categories" v-bind:key="index">{{category}}</option>
+                <select class="form-control" id="degree-category" v-model="selectedCategory">
+                    <option :value="category" v-for="(category, index) in this.categories" v-bind:key="index">{{category}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="degree-name">Degree Name</label>
                 <!-- Should we trim the inputs before storing in the db? -->
-                <input type="text" class="form-control" id="degree-name"> 
+                <input type="text" class="form-control" id="degree-name" v-model="degreeName"> 
             </div>
             <div class="form-group">
                 <label for="degree-desc">Description</label>
-                <textarea class="form-control" id="degree-desc" rows="3"></textarea>
+                <textarea class="form-control" id="degree-desc" rows="3" v-model="degreeDesc"></textarea>
             </div>
+            <h4>Offered By:</h4>
             <div class="form-group">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input">
+                <h5>Associates:</h5>
+                <div class="form-check form-check-inline p-1" v-for="(school, index) in schools" v-bind:key="index">
+                    <label for="degree-schools1" class="form-check-label">{{school}} &rarr;</label>
+                    <input type="checkbox" class="form-check-input" :value="school" v-model="offeredBy.associates">
                 </div>
             </div>
+            <div class="form-group">
+                <h5>Bachelors:</h5>
+                <div class="form-check form-check-inline p-1" v-for="(school, index) in schools" v-bind:key="index">
+                    <label for="" class="form-check-label">{{school}} &rarr;</label>
+                    <input type="checkbox" class="form-check-input" :value="school" v-model="offeredBy.bachelors">
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Add Degree</button>
         </form>
     </div>
     
@@ -32,33 +43,37 @@
 <script>
 import db from '@/firebase/init'
 
-// This is a temporary component, used in dev to conveniently add degrees to firestore
-
 export default {
     name: "AddDegree",
     data() {
         return {
             categories: [],
-            schools: []
+            selectedCategory: null,
+            schools: [],
+            offeredBy: {
+                associates: [],
+                bachelors: []
+            },
+            degreeName: null,
+            degreeDesc: null
         }
     },
     methods: {
-        postSchoolDegreeHandler() {
+        AddDegree() {
 
-            const ref = db.collection('degrees').doc('CAzqLnJe7o3O5TAPCgFH').collection('schoolsOffering').doc("Indiana Tech")
-
-            ref.set(this.schoolDegreeObj)
-                .then((docRef) => {
-                    console.log(`Document written with ID: ${docRef.id}`)
-                })
-                .catch(err => {
-                    console.log(error)
-                })
-            
-        },
-        postDegreeHandler() {
-
-            db.collection('degrees').add(this.degreeObj)
+            db.collection('degrees').add({
+                category: this.selectedCategory,
+                desc: this.degreeDesc,
+                degreeName: this.degreeName,
+                offeredBy: {
+                    associates: [...this.offeredBy.associates],
+                    bachelors: [...this.offeredBy.bachelors]
+                }
+            }).then((docRef) => {
+                console.log(`Document successfully created with ID ${docRef.id}`)
+            }).catch((error) => {
+                console.log(`Error adding document: ${error}`)
+            })
 
         }
     },
