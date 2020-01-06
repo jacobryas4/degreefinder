@@ -5,6 +5,7 @@ import ByDegree from '@/components/containers/ByDegree'
 import BySchool from '@/components/containers/BySchool'
 import ByCategory from '@/components/containers/ByCategory'
 import AddDegree from '@/components/containers/AddDegree'
+import AddDegReq from '@/components/containers/AddDegReq'
 
 Vue.use(Router)
 
@@ -34,6 +35,12 @@ export default new Router({
       path: '/add-degree',
       name: 'AddDegree',
       component: AddDegree
+    },
+    {
+      path: '/add-degree-reqs',
+      name: 'AddDegReq',
+      component: AddDegReq
     }
+
   ]
 })
