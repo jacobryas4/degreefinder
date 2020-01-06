@@ -45,7 +45,7 @@
                     <textarea id="coreCourses" cols="30" rows="3" class="form-control"></textarea>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row m-2" v-for="(row, index) in requiredCourses" v-bind:key="index">
                 <div class="col">
                     <input type="text" class="form-control" placeholder="DLSI Course">
                 </div>
@@ -53,6 +53,7 @@
                     <input type="text" class="form-control" placeholder="School Course">
                 </div>
             </div>
+            <button @click="AddReqCourseRow">Add Row</button>
         </form>
     </div>
     
@@ -65,11 +66,13 @@ export default {
     name: "AddDegReq",
     data() {
         return {
-            requiredCoureCount: 1
+            requiredCourses: []
         }
     },
     methods: {
-
+        AddReqCourseRow() {
+            this.requiredCourses++
+        }
     }
 }
 </script>
