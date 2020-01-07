@@ -12,9 +12,7 @@
                 </div>
                 <div class="col">
                     <label for="inputSchool">School</label>
-                    <select id="inputSchool">
-                        <option value=""></option>
-                    </select>
+                    <SchoolDropdown v-bind:model="selectedSchool"/>
                 </div>
             </div>
             <div class="form-row">
@@ -47,10 +45,11 @@
             </div>
             <div class="form-row m-2" v-for="(row, index) in requiredCourses" v-bind:key="index">
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="DLSI Course">
+                    <input type="text" class="form-control" placeholder="DLSI Course" v-model="requiredCourses[index].dlsi">
                 </div>
+                <h2>=</h2>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="School Course">
+                    <input type="text" class="form-control" placeholder="School Course" v-model="requiredCourses[index].school">
                 </div>
             </div>
             <button @click="AddReqCourseRow">Add Row</button>
@@ -61,19 +60,27 @@
 
 <script>
 import db from '@/firebase/init'
+import SchoolDropdown from '@/components/UI/SchoolDropdown'
 
 export default {
     name: "AddDegReq",
+    components: {
+        SchoolDropdown
+    },
     data() {
         return {
-            requiredCourses: []
+            requiredCourses: [{ dlsi: null, school: null }],
+            selectedSchool: null
         }
     },
     methods: {
         AddReqCourseRow() {
-            this.requiredCourses++
+            this.requiredCourses.push({ dlsi: null, school: null})
         }
-    }
+    },
+    beforeMount() {
+        
+    },
 }
 </script>
 
