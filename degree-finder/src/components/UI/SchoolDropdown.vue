@@ -1,6 +1,6 @@
 <template>
-    <select class="form-control" @change="schoolSelected"> 
-        <option value="" v-for="(school,index) in schools" v-bind:key="index">{{school}}</option>
+    <select class="form-control" v-model="selectedSchool" @change="schoolSelected(selectedSchool)"> 
+        <option :value="school" v-for="(school,index) in schools" v-bind:key="index">{{school}}</option>
     </select>
 </template>
 
@@ -12,12 +12,12 @@ export default {
     data(){
         return {
             schools: [],
-            selectedSchoo: null
+            selectedSchool: ""
         }
     },
     methods: {
         schoolSelected() {
-
+            this.$emit("schoolSelected", this.selectedSchool)
         }
     },
     beforeMount() {
