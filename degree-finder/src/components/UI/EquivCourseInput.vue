@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h3>{{title}}</h3>
         <div class="form-row m-2" v-for="(row, index) in requiredCourses" v-bind:key="index">
                 <div class="col">
                     <input type="text" class="form-control" placeholder="DLSI Course" v-model="requiredCourses[index].dlsi">
@@ -21,6 +22,7 @@
 
 export default {
     name: 'EquivCourseInput',
+    props: ["title"],
     data() {
         return {
             requiredCourses: [{ dlsi: null, school: null }]

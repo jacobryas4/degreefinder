@@ -51,7 +51,8 @@
                     <textarea id="coreCourses" cols="30" rows="3" class="form-control" v-model="coreCourses"></textarea>
                 </div>
             </div>
-            <EquivCourseInput v-on:modifiedCourses="updateGenEdCourses($event)" />
+            <EquivCourseInput v-on:modifiedCourses="updateGenEdCourses($event)" title="Gen Ed Courses"/>
+            <EquivCourseInput v-on:modifiedCourses="updateGenElectives($event)" title="General Electives" />
         </form>
         <button class="btn btn-primary m-3" @click="SubmitDegreeReqs">Submit</button>
     </div>
@@ -74,6 +75,7 @@ export default {
     data() {
         return {
             genEdCourses: null,
+            genElectives: null,
             selectedSchool: null,
             selectedDegree: null,
             degreeType: null,
@@ -83,16 +85,11 @@ export default {
         }
     },
     methods: {
-        updateSchool(school) {
-            this.selectedSchool = school
-        },
-        updateDegree(degree) {
-            this.selectedDegree = degree
-        },
-        updateGenEdCourses(courses) {
-            this.genEdCourses = [...courses]
-        },
-        SubmitDegreeReqs() {
+        updateSchool(school) { this.selectedSchool = school },
+        updateDegree(degree) { this.selectedDegree = degree },
+        updateGenEdCourses(courses) { this.genEdCourses = [...courses] },
+        updateGenElectives(courses) { this.genElectives = [...courses] },
+        async SubmitDegreeReqs() {
 
             let schoolCoreCoursesArr = this.coreCourses.split(',')
             let trimmedCoursesArr = []
@@ -103,21 +100,23 @@ export default {
             // build degree req obj
             let degReqObj = {
                 admReq: this.admReqs,
-                dlsiCourses: {
-                    electives: [],
-                    genEd: []
-                },
-                schoolCourses: {
-                    coreSchoolCourses: [...trimmedCoursesArr],
-                    equivCourses: [],
-                    genElectives: []
-                },
+                genEdCourses: [...this.genEdCourses],
+                genElectives: [...this.genElectives],
                 transferReq: this.transferReqs
             }
+            console.log(degReqObj)
 
             // push it to firebase
+            await db.collection('degrees').where("degreeName", "==", this.selectedDegree)
+                    .collection('schoolsOffering').doc(this.selectedSchool).set(degReqObj)
+                        .then(() => {
+                            // push router back to index
+                            this.$router.push({ name: 'Index' })
+                        }).catch(err => {
+                            // log any errors
+                            console.log(err)
+                        })
 
-            // push router back to index
 
         }
     }
