@@ -85,10 +85,12 @@ export default {
         }
     },
     methods: {
+        // event handlers for child components
         updateSchool(school) { this.selectedSchool = school },
         updateDegree(degree) { this.selectedDegree = degree },
         updateGenEdCourses(courses) { this.genEdCourses = [...courses] },
         updateGenElectives(courses) { this.genElectives = [...courses] },
+        // push to db
         async SubmitDegreeReqs() {
 
             let schoolCoreCoursesArr = this.coreCourses.split(',')
@@ -105,17 +107,22 @@ export default {
                 transferReq: this.transferReqs
             }
             console.log(degReqObj)
-
+            
             // push it to firebase
-            await db.collection('degrees').where("degreeName", "==", this.selectedDegree)
-                    .collection('schoolsOffering').doc(this.selectedSchool).set(degReqObj)
-                        .then(() => {
-                            // push router back to index
-                            this.$router.push({ name: 'Index' })
-                        }).catch(err => {
-                            // log any errors
-                            console.log(err)
+            await db.collection('degrees').where("degreeName", "==", this.selectedDegree).get()
+                    .then(schools => {
+                        let newId = null
+                        schools.forEach(doc => {
+                            console.log(doc.id)
+                            newId = doc.id
                         })
+                        db.collection('degrees').doc(newId)
+                            // THIS LINE MUST BE FIXED THE doc() entry is incorrect
+                          .collection('schoolsOffering').doc(this.selectedSchool).doc(this.degreeType).set(degReqObj)   
+                            .then(() => { console.log('success')})
+                            .catch((err) => { console.log(err) })
+
+                    })
 
 
         }
