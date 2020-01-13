@@ -1,6 +1,6 @@
 <template>
     <select class="form-control" v-model="selectedDegree" @change="degreeSelected(selectedDegree)">  
-        <option :value="degree.degreeName" v-for="(degree,index) in degrees" v-bind:key="index">{{degree.degreeName}}</option>
+        <option :value="degree" v-for="(degree,index) in degrees" v-bind:key="index">{{degree.degreeName}}</option>
     </select>
 </template>
 

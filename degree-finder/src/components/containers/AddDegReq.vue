@@ -3,7 +3,7 @@
     <div class="col-md-10 mt-5 text-left">
         <h3>Add Degree Requirents</h3>
         <form action="#">
-            <div class="form-row">
+            <div class="form-row m-3">
                 <div class="col">
                     <label for="inputDegree">Degree</label>
                     <DegreeDropdown v-on:degreeSelected="updateDegree($event)" />
@@ -13,7 +13,7 @@
                     <SchoolDropdown v-on:schoolSelected="updateSchool($event)"/>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row m-3">
                 <div class="form-check form-check-inline col">
                     <input type="radio" 
                             class="form-check-input" 
@@ -33,19 +33,19 @@
                     <label for="bachelorsRadio" class="form-check-label">Bachelors</label>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row m-3">
                 <div class="form-group col-md-12">
                     <label for="admReq">Admission Requirements</label>
                     <textarea id="admReq" cols="20" rows="3" class="form-control" v-model="admReqs"></textarea>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row m-3">
                 <div class="form-group col-md-12">
                     <label for="transferReq">Transfer Requirements</label>
                     <textarea id="transferReq" cols="20" rows="3" class="form-control" v-model="transferReqs"></textarea>
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-row m-3">
                 <div class="form-group col-md-12">
                     <label for="coreCourses">School Core Courses (enter courses separated by comma ex: BIOL 101, MATH 120, etc.</label>
                     <textarea id="coreCourses" cols="30" rows="3" class="form-control" v-model="coreCourses"></textarea>
@@ -104,25 +104,18 @@ export default {
                 admReq: this.admReqs,
                 genEdCourses: [...this.genEdCourses],
                 genElectives: [...this.genElectives],
-                transferReq: this.transferReqs
-            }
-            console.log(degReqObj)
-            
+                transferReq: this.transferReqs,
+                coreCourses: [...trimmedCoursesArr]
+            } 
             // push it to firebase
-            await db.collection('degrees').where("degreeName", "==", this.selectedDegree).get()
-                    .then(schools => {
-                        let newId = null
-                        schools.forEach(doc => {
-                            console.log(doc.id)
-                            newId = doc.id
+            await db.collection('degrees').doc(this.selectedDegree.degreeId)
+                    .collection('schoolsOffering').doc(this.selectedSchool)
+                    .collection('type').doc(this.degreeType).set(degReqObj)
+                        .then(() => {
+                            this.$router.push({ name: 'Index' })
+                        }).catch(err => {
+                            console.log(err)
                         })
-                        db.collection('degrees').doc(newId)
-                            // THIS LINE MUST BE FIXED THE doc() entry is incorrect
-                          .collection('schoolsOffering').doc(this.selectedSchool).doc(this.degreeType).set(degReqObj)   
-                            .then(() => { console.log('success')})
-                            .catch((err) => { console.log(err) })
-
-                    })
 
 
         }
