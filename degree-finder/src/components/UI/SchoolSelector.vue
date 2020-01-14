@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>SCHOOL SELECTOR</h1>
+        <h1>School Selector</h1>
         <button type="button" class="btn btn-primary m-2" 
             v-for="school in schoolsOffering" 
             v-bind:key="school"

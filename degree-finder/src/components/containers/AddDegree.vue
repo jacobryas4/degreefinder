@@ -71,8 +71,22 @@ export default {
     },
     methods: {
         AddDegree() {
+            
+            // create a set to remove duplicates in combined array of all schools offering the degree in some form
+            var allSchoolsArr = [...this.offeredBy.associates, ...this.offeredBy.bachelors]
+            var allSchoolsSet = new Set(allSchoolsArr)
+            var allSchools = [...allSchoolsSet]
+            console.log(allSchools)
+
+            // create batch to run multiple queries simultaneously
+            var batch = db.batch()
+
+            // ref variables
+            const schoolsOfferingRef = db.collection('degrees').doc(this.degreeName).collection('schoolsOffering')
+            const degreeRef = db.collection('degrees').doc(this.degreeName)
+
             // add new degree to firestore
-            db.collection('degrees').add({
+            let degree = {
                 category: this.selectedCategory,
                 desc: this.degreeDesc,
                 degreeName: this.degreeName,
@@ -80,11 +94,10 @@ export default {
                     associates: [...this.offeredBy.associates],
                     bachelors: [...this.offeredBy.bachelors]
                 }
-            }).then((docRef) => {
-                console.log(`Document successfully created with ID ${docRef.id}`)
-            }).catch((error) => {
-                console.log(`Error adding document: ${error}`)
-            })
+            }
+
+            // TODO - we need to add each school to the batch so we can create the subdocuments and the documents at the same time
+            // also need to add degree to the batch
 
         }
     },

@@ -147,8 +147,13 @@ export default {
             await db.collection('degrees').doc(this.chosenDegree[0].degreeId)
                     .collection('schoolsOffering').doc(this.chosenSchool).get()
                         .then((snapshot) => {
-                            console.log(snapshot.data())
-                            this.chosenSchoolDegInfo = snapshot.data()
+                            // console.log(snapshot.data())
+                            // this.chosenSchoolDegInfo = snapshot.data()
+                            if (snapshot.exists) {
+                                console.log(snapshot.data())
+                            } else {
+                                console.log('no')
+                            }
                         })
 
             
