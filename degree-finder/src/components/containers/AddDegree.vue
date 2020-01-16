@@ -36,7 +36,8 @@
                         <input type="checkbox" class="form-check-input" :value="school" v-model="offeredBy.bachelors">
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Add Degree 🚀</button>
+                <!-- <button class="btn btn-primary" type="submit">Add Degree 🚀</button> -->
+                <LoadingBtn btn-text="Submit" v-bind:loading="this.loading" />
             </form>
         </div>
     </div>
@@ -49,11 +50,13 @@
 <script>
 import db from '@/firebase/init'
 import Spinner from '@/components/UI/Spinner'
+import LoadingBtn from '@/components/UI/LoadingBtn'
 
 export default {
     name: "AddDegree",
     components: {
-        Spinner
+        Spinner,
+        LoadingBtn
     },
     data() {
         return {
@@ -75,10 +78,11 @@ export default {
             // create a set to remove duplicates in combined array of all schools offering the degree in some form
             var allSchoolsArr = [...this.offeredBy.associates, ...this.offeredBy.bachelors]
             var allSchoolsSet = new Set(allSchoolsArr)
-            var allSchools = [...allSchoolsSet]
-            console.log(allSchools)
 
-            // create batch to run multiple queries simultaneously
+            // convert this back to an array with all unique values to push to firestore
+            var allSchools = [...allSchoolsSet]
+
+            // create batch to run multiple writes simultaneously
             var batch = db.batch()
 
             // ref variables
@@ -96,8 +100,21 @@ export default {
                 }
             }
 
-            // TODO - we need to add each school to the batch so we can create the subdocuments and the documents at the same time
-            // also need to add degree to the batch
+            // add degree itself to batch
+            batch.set(degreeRef, degree)
+
+            // loop through schools array and add to batch
+            // adding empty object just to init docs for each school
+            allSchools.forEach((school, index) => {
+                batch.set(schoolsOfferingRef.doc(school), {})
+            })
+
+            // commit the batch
+            batch.commit().then((data) => {
+                console.log(data)
+            }).catch((err) => {
+                console.log(err)
+            })
 
         }
     },
