@@ -37,7 +37,6 @@
                     </div>
                 </div>
                 <button class="btn btn-primary" type="submit">Add Degree 🚀</button>
-                <!-- <LoadingBtn btn-text="Submit" v-bind:loading="this.loading" /> -->
             </form>
         </div>
     </div>
