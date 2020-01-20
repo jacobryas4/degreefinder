@@ -14,10 +14,10 @@
 
 <script>
 export default {
-    props: ['btnText'],
+    props: ['btnText', 'loading'],
     data() {
         return {
-            loading: true
+            
         }
     },
     methods: {

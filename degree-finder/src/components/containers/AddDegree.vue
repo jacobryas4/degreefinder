@@ -3,7 +3,7 @@
         <div class="row">
             <Spinner v-if="loading" />
         <div class="col-md-10 p-1" v-if="loading === false">
-            
+            <SuccessAlert />
             <h2>Add a Degree</h2>
             <form @submit.prevent="AddDegree">
                 <div class="form-group">
@@ -36,8 +36,8 @@
                         <input type="checkbox" class="form-check-input" :value="school" v-model="offeredBy.bachelors">
                     </div>
                 </div>
-                <!-- <button class="btn btn-primary" type="submit">Add Degree 🚀</button> -->
-                <LoadingBtn btn-text="Submit" v-bind:loading="this.loading" />
+                <button class="btn btn-primary" type="submit">Add Degree 🚀</button>
+                <!-- <LoadingBtn btn-text="Submit" v-bind:loading="this.loading" /> -->
             </form>
         </div>
     </div>
@@ -51,16 +51,18 @@
 import db from '@/firebase/init'
 import Spinner from '@/components/UI/Spinner'
 import LoadingBtn from '@/components/UI/LoadingBtn'
+import SuccessAlert from '@/components/UI/SuccessAlert'
 
 export default {
     name: "AddDegree",
     components: {
         Spinner,
-        LoadingBtn
+        LoadingBtn,
+        SuccessAlert
     },
     data() {
         return {
-            loading: true,
+            loading: false,
             categories: [],
             selectedCategory: null,
             schools: [],
@@ -74,6 +76,8 @@ export default {
     },
     methods: {
         AddDegree() {
+            // set loading btn spinner
+            this.loading = true
             
             // create a set to remove duplicates in combined array of all schools offering the degree in some form
             var allSchoolsArr = [...this.offeredBy.associates, ...this.offeredBy.bachelors]
@@ -112,6 +116,7 @@ export default {
             // commit the batch
             batch.commit().then((data) => {
                 console.log(data)
+                this.loading = false
             }).catch((err) => {
                 console.log(err)
             })
