@@ -51,6 +51,7 @@ import db from '@/firebase/init'
 import Spinner from '@/components/UI/Spinner'
 import LoadingBtn from '@/components/UI/LoadingBtn'
 import SuccessAlert from '@/components/UI/SuccessAlert'
+import slugify from 'slugify'
 
 export default {
     name: "AddDegree",
@@ -97,6 +98,11 @@ export default {
                 category: this.selectedCategory,
                 desc: this.degreeDesc,
                 degreeName: this.degreeName,
+                slug: slugify(this.degreeName, {
+                    replacement: '-',
+                    remove: null,
+                    lower: true
+                }),
                 offeredBy: {
                     associates: [...this.offeredBy.associates],
                     bachelors: [...this.offeredBy.bachelors]
@@ -114,7 +120,6 @@ export default {
 
             // commit the batch
             batch.commit().then((data) => {
-                console.log(data)
                 this.loading = false
             }).catch((err) => {
                 console.log(err)

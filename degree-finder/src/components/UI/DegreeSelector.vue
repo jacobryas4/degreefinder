@@ -8,7 +8,6 @@
                     v-bind:key="degree.degreeId">
                     <h5>{{degree.degreeName}}</h5>
                         <div>
-                            <!-- <span class="badge badge-secondary badge-pill" v-if="degree.bachelors">Bachelors</span> -->
                             <button type="button" class="btn btn-primary" v-if="degree.bachelors" @click.prevent="degreeSelected(degree.bachelors, degree.degreeName)">
                                 Bachelors <span class="badge badge-light">{{degree.bachelors.length}}</span>
                             </button>
