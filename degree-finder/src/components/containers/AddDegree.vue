@@ -3,7 +3,7 @@
         <div class="row">
             <Spinner v-if="loading" />
         <div class="col-md-10 p-1" v-if="loading === false">
-            <SuccessAlert />
+            <SuccessAlert v-if="success"/>
             <h2>Add a Degree</h2>
             <form @submit.prevent="AddDegree">
                 <div class="form-group">
@@ -63,6 +63,7 @@ export default {
     data() {
         return {
             loading: false,
+            success: false,
             categories: [],
             selectedCategory: null,
             schools: [],
@@ -121,6 +122,7 @@ export default {
             // commit the batch
             batch.commit().then((data) => {
                 this.loading = false
+                this.success = true
             }).catch((err) => {
                 console.log(err)
             })
