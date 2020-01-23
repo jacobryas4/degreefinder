@@ -1,18 +1,18 @@
 <template>
     <div>
-        <h1>Degree Selector</h1>
+        <h1>{{sectionTitle}}</h1>
         <div class="list-group">
             <transition-group name="fade">
                 <li class="list-group-item d-flex justify-content-between list-group-item-action align-items-center" 
-                    v-for="(degree, index) in degreesOffered"
-                    v-bind:key="degree.degreeId">
+                    v-for="degree in degreesOffered"
+                    v-bind:key="degree.degreeName">
                     <h5>{{degree.degreeName}}</h5>
                         <div>
-                            <button type="button" class="btn btn-primary" v-if="degree.bachelors" @click.prevent="degreeSelected(degree.bachelors, degree.degreeName)">
-                                Bachelors <span class="badge badge-light">{{degree.bachelors.length}}</span>
+                            <button type="button" class="btn btn-primary" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree.offeredBy.bachelors, degree.degreeName)">
+                                Bachelors <span class="badge badge-light">{{degree.offeredBy.bachelors.length}}</span>
                             </button>
-                            <button type="button" class="btn btn-secondary" v-if="degree.associates" @click.prevent="degreeSelected(degree.associates, degree.degreeName)">
-                                Associates <span class="badge badge-light">{{degree.associates.length}}</span>
+                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree.offeredBy.associates, degree.degreeName)">
+                                Associates <span class="badge badge-light">{{degree.offeredBy.associates.length}}</span>
                             </button>
                         </div>
                 </li>
@@ -26,7 +26,8 @@ export default {
     name: 'DegreeSelector',
     props: [
         'category',
-        'degreesOffered'
+        'degreesOffered',
+        'sectionTitle'
     ],
     data() {
         return {

@@ -6,6 +6,8 @@ import BySchool from '@/components/containers/BySchool'
 import ByCategory from '@/components/containers/ByCategory'
 import AddDegree from '@/components/containers/AddDegree'
 import AddDegReq from '@/components/containers/AddDegReq'
+import EditDegree from '@/components/containers/EditDegree'
+import EditDegreeReq from '@/components/containers/EditDegreeReq'
 
 Vue.use(Router)
 
@@ -40,7 +42,16 @@ export default new Router({
       path: '/add-degree-reqs',
       name: 'AddDegReq',
       component: AddDegReq
+    },
+    {
+      path: '/edit-degree/:degree-slug',
+      name: 'EditDegree',
+      component: EditDegree
+    },
+    {
+      path: '/edit-degree-reqs/:degree-slug',
+      name: 'EditDegreeReq',
+      component: EditDegreeReq
     }
-
   ]
 })

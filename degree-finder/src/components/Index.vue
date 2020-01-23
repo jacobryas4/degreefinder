@@ -15,19 +15,22 @@
                 </div>
             </div>
         </div>
+        <AllDegrees />
     </div>
 </template>
 
 <script>
 import Spinner from '@/components/UI/Spinner'
 import AddDegree from '@/components/containers/AddDegree'
+import AllDegrees from '@/components/UI/AllDegrees'
 import db from '@/firebase/init'
 
 export default {
     name: 'Index',
     components: {
         Spinner,
-        AddDegree
+        AddDegree,
+        AllDegrees
     },
     data () {
         return {

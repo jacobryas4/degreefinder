@@ -15,7 +15,8 @@
                         v-if="showDegreeSelector && !chosenSchoolDegInfo" 
                         v-bind:category="category" 
                         v-bind:degreesOffered="degreesOffered"
-                        v-on:degreeSelected="updateDegree($event)" />
+                        v-on:degreeSelected="updateDegree($event)"
+                        sectionTitle="Degree Selector" />
                 </transition>
                 
                 <br>
@@ -90,21 +91,15 @@ export default {
                 .then((snapshot) => {
                     console.log(snapshot)
                     snapshot.forEach(doc => {
-                        console.log(doc.data())
-                        console.log(doc.id)
-                        let degree = { 
-                            degreeName: doc.data().degreeName, 
-                            degreeId: doc.id,
-                            associates: [],
-                            bachelors: []
-                        }
-                        doc.data().offeredBy.associates.forEach(item => {
-                            degree.associates.push(item)
-                        })
-                        doc.data().offeredBy.bachelors.forEach(item => {
-                            degree.bachelors.push(item)
-                        })
-                        this.degreesOffered.push(degree)
+                        // console.log(doc.data())
+                        // console.log(doc.id)
+                        // let degree = { 
+                        //     degreeName: doc.data().degreeName, 
+                        //     degreeId: doc.id,
+                        //     associates: [...doc.data().offeredBy.associates],
+                        //     bachelors: [...doc.data().offeredBy.bachelors]
+                        // }
+                        this.degreesOffered.push(doc.data())
                         
                     })
                 })
