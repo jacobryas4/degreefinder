@@ -7,12 +7,24 @@
                     v-for="degree in degreesOffered"
                     v-bind:key="degree.degreeName">
                     <h5>{{degree.degreeName}}</h5>
-                        <div>
-                            <button type="button" class="btn btn-primary" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree.offeredBy.bachelors, degree.degreeName)">
+                        <div v-if="!editMode">
+                            <button type="button" class="btn btn-primary" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree)">
                                 Bachelors <span class="badge badge-light">{{degree.offeredBy.bachelors.length}}</span>
                             </button>
-                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree.offeredBy.associates, degree.degreeName)">
+                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree)">
                                 Associates <span class="badge badge-light">{{degree.offeredBy.associates.length}}</span>
+                            </button>
+                        </div>
+                        <div v-if="editMode">
+                            <button type="button" class="btn btn-light" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree)">
+                                <router-link :to="{ name: 'EditDegree', params: {degree_slug: degree.slug}}">
+                                    Edit Degree
+                                </router-link>
+                            </button>
+                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree)">
+                                <router-link :to="{ name: 'EditDegreeReq', params: {degree_slug: degree.slug}}">
+                                    Edit Requirements
+                                </router-link>
                             </button>
                         </div>
                 </li>
@@ -27,7 +39,8 @@ export default {
     props: [
         'category',
         'degreesOffered',
-        'sectionTitle'
+        'sectionTitle',
+        'editMode'
     ],
     data() {
         return {
@@ -37,8 +50,8 @@ export default {
         }
     },
     methods: {
-        degreeSelected(schools, degree) {
-            this.$emit('degreeSelected', {schls: schools, deg: degree})
+        degreeSelected(degree) {
+            this.$emit('degreeSelected', degree)
         }
     }
 } 

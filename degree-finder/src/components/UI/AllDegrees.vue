@@ -3,6 +3,7 @@
     <div>
         <DegreeSelector
             v-bind:degreesOffered="degrees"
+            v-bind:editMode="true"
             v-on:degreeSelected="updateDegree($event)"
             sectionTitle="All Degrees" />
     </div>

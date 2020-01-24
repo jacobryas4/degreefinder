@@ -15,6 +15,7 @@
                         v-if="showDegreeSelector && !chosenSchoolDegInfo" 
                         v-bind:category="category" 
                         v-bind:degreesOffered="degreesOffered"
+                        v-bind:editMode="false"
                         v-on:degreeSelected="updateDegree($event)"
                         sectionTitle="Degree Selector" />
                 </transition>

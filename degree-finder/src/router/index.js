@@ -44,12 +44,12 @@ export default new Router({
       component: AddDegReq
     },
     {
-      path: '/edit-degree/:degree-slug',
+      path: '/edit-degree/:degree_slug',
       name: 'EditDegree',
       component: EditDegree
     },
     {
-      path: '/edit-degree-reqs/:degree-slug',
+      path: '/edit-degree-reqs/:degree_slug',
       name: 'EditDegreeReq',
       component: EditDegreeReq
     }
