@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <h5>Bachelors:</h5>
                     <div class="form-check form-check-inline p-1" v-for="(school, index) in schools" v-bind:key="index">
-                        <label for="" class="form-check-label">{{school}} &rarr;</label>
+                        <label for="" class="form-check-label">{{school}}</label>
                         <input type="checkbox" class="form-check-input" :value="school" v-model="offeredBy.bachelors">
                     </div>
                 </div>

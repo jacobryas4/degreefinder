@@ -48,7 +48,7 @@
 import CategorySelector from '@/components/UI/CategorySelector'
 import DegreeSelector from '@/components/UI/DegreeSelector'
 import SchoolSelector from '@/components/UI/SchoolSelector'
-import DegreeInfo from '@/components/UI/DegreeInfo'
+import DegreeInfo from '@/components/containers/DegreeInfo'
 import db from '@/firebase/init'
 
 export default {
@@ -94,13 +94,11 @@ export default {
                     snapshot.forEach(doc => {
                         // console.log(doc.data())
                         // console.log(doc.id)
-                        // let degree = { 
-                        //     degreeName: doc.data().degreeName, 
-                        //     degreeId: doc.id,
-                        //     associates: [...doc.data().offeredBy.associates],
-                        //     bachelors: [...doc.data().offeredBy.bachelors]
-                        // }
-                        this.degreesOffered.push(doc.data())
+                        let degree = {  
+                            degreeId: doc.id,
+                            ...doc.data()
+                        }
+                        this.degreesOffered.push(degree)
                         
                     })
                 })
@@ -119,18 +117,18 @@ export default {
         updateDegree(payload) {
             // filter through degrees to get data for the chosen one
             this.chosenDegree = this.degreesOffered.filter((item) => {
-                return item.degreeName === payload.deg
+                return item.degreeName === payload.degree.degreeName
             })
 
-            console.log(payload.schls)
-            console.log(payload.deg)
+            console.log(payload.degreeType)
+            console.log(payload.degree)
 
             // set degreesOffered to only have the chosen degree
             // This removes other degrees from the screen
             this.degreesOffered = [...this.chosenDegree]
 
             // pass schools offering into state to be passed to school selector component
-            this.schoolsOffering = payload.schls
+            this.schoolsOffering = payload.degree.offeredBy[payload.degreeType]
 
             // show the school selector
             this.showSchoolSelector = true
@@ -140,11 +138,12 @@ export default {
             this.chosenSchool = school
              
             // query db to get schools info for that degree
+            // update this to match new degree schema
             await db.collection('degrees').doc(this.chosenDegree[0].degreeId)
                     .collection('schoolsOffering').doc(this.chosenSchool).get()
                         .then((snapshot) => {
                             // console.log(snapshot.data())
-                            // this.chosenSchoolDegInfo = snapshot.data()
+                            this.chosenSchoolDegInfo = snapshot.data()
                             if (snapshot.exists) {
                                 console.log(snapshot.data())
                             } else {

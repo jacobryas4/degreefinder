@@ -8,10 +8,10 @@
                     v-bind:key="degree.degreeName">
                     <h5>{{degree.degreeName}}</h5>
                         <div v-if="!editMode">
-                            <button type="button" class="btn btn-primary" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree)">
+                            <button type="button" class="btn btn-primary" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree,'bachelors')">
                                 Bachelors <span class="badge badge-light">{{degree.offeredBy.bachelors.length}}</span>
                             </button>
-                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree)">
+                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree, 'associates')">
                                 Associates <span class="badge badge-light">{{degree.offeredBy.associates.length}}</span>
                             </button>
                         </div>
@@ -22,7 +22,7 @@
                                 </router-link>
                             </button>
                             <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree)">
-                                <router-link :to="{ name: 'EditDegreeReq', params: {degree_slug: degree.slug}}">
+                                <router-link :to="{ name: 'EditDegreeReq', params: {degree_slug: degree.slug} }">
                                     Edit Requirements
                                 </router-link>
                             </button>
@@ -50,8 +50,13 @@ export default {
         }
     },
     methods: {
-        degreeSelected(degree) {
-            this.$emit('degreeSelected', degree)
+        degreeSelected(degree, degreeType) {
+            console.log(degree)
+            let payload = {
+                degreeType,
+                degree
+            }
+            this.$emit('degreeSelected', payload)
         }
     }
 } 

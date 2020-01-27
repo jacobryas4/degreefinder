@@ -5,6 +5,11 @@
             v-for="school in schoolsOffering" 
             v-bind:key="school"
             @click="schoolSelected(school)">{{school}}</button>
+        <!-- <button type="button" class="btn btn-secondary">
+            <router-link :to="{ name: 'EditDegreeReq', params: {degree_slug: degree.slug} }">
+                Edit Requirements
+            </router-link>
+        </button> -->
     </div>
 </template>
 

@@ -4,8 +4,8 @@
             <Spinner v-if="loading" />
         <div class="col-md-10 p-1" v-if="loading === false">
             <SuccessAlert v-if="success"/>
-            <h2>Add a Degree</h2>
-            <form @submit.prevent="AddDegree">
+            <h2>Edit Degree</h2>
+            <form @submit.prevent="EditDegree">
                 <div class="form-group">
                     <label for="degree-category">Category</label>
                     <select class="form-control" id="degree-category" v-model="selectedCategory">
@@ -54,7 +54,7 @@ import SuccessAlert from '@/components/UI/SuccessAlert'
 import slugify from 'slugify'
 
 export default {
-    name: "AddDegree",
+    name: "EditDegree",
     components: {
         Spinner,
         LoadingBtn,
@@ -76,7 +76,7 @@ export default {
         }
     },
     methods: {
-        AddDegree() {
+        EditDegree() {
             // set loading btn spinner
             this.loading = true
             
@@ -131,6 +131,18 @@ export default {
     },
     beforeMount() {
 
+        // get existing degree data from Firestore
+        db.collection('degrees').where("slug", "==", this.$route.params.degree_slug).get()
+            .then((snapshot) => {
+                snapshot.forEach(doc => {
+                    // console.log(doc.data())
+                    this.selectedCategory = doc.data().category
+                    this.degreeName = doc.data().degreeName
+                    this.degreeDesc = doc.data().desc
+                    this.offeredBy = {...doc.data().offeredBy}
+                })
+            })
+
         // get categories from Firestore
         db.collection('categories').doc('wZBcZDeRvazfPgYEMgGE').get()
             .then((snapshot) => {
@@ -141,7 +153,7 @@ export default {
         db.collection('schools').doc('hSc3O5nMwxDng6qrXmxG').get()
             .then((snapshot) => {
                 this.schools = [...snapshot.data().schools]
-            })
+            }).catch(err => console.log(err))
 
         this.loading = false
     }
