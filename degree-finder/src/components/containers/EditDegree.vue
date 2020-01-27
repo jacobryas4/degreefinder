@@ -39,7 +39,7 @@
                 <button class="btn btn-primary" type="submit">Add Degree 🚀</button>
             </form>
         </div>
-    </div>
+        </div>
     </div>
     
     

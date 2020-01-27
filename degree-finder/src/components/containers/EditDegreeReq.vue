@@ -6,7 +6,7 @@
             <div class="form-row m-3">
                 <div class="col">
                     <label for="inputDegree">Degree</label>
-                    <DegreeDropdown v-on:degreeSelected="updateDegree($event)" />
+                    <DegreeDropdown v-on:degreeSelected="updateDegree($event)"/>
                 </div>
                 <div class="col">
                     <label for="inputSchool">School</label>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <EquivCourseInput v-on:modifiedCourses="updateGenEdCourses($event)" title="Gen Ed Courses"/>
-            <EquivCourseInput v-on:modifiedCourses="updateGenElectives($event)" title="General Electives" />
+            <EquivCourseInput v-on:modifiedCourses="updateGenElectives($event)" title="General Electives"/>
         </form>
         <button class="btn btn-primary m-3" @click="SubmitDegreeReqs">Submit</button>
     </div>
@@ -66,7 +66,7 @@ import DegreeDropdown from '@/components/UI/DegreeDropdown'
 import EquivCourseInput from '@/components/UI/EquivCourseInput'
 
 export default {
-    name: "AddDegReq",
+    name: "EditDegReq",
     components: {
         SchoolDropdown,
         DegreeDropdown,
@@ -119,6 +119,15 @@ export default {
 
 
         }
+    },
+    beforeMount() {
+        // get degree data from route params
+        db.collection('degrees').where('slug', '==', this.$route.params.degree_slug).get()
+            .then(snapshot => {
+                snapshot.forEach(doc => {
+                    console.log(doc.data())
+                })
+            })
     }
 }
 </script>
