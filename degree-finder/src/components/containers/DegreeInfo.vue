@@ -1,7 +1,7 @@
 <template>
     <div class="col-md-12">
 
-        <h1 class="display-4">{{this.degreeName}}</h1>
+        <h1 class="display-4">Degree Information</h1>
 
         <br>
         
@@ -15,7 +15,7 @@
               </h2>
           </div>
 
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
               <table class="table">
                 <thead>
@@ -25,9 +25,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(course,index) in chosenSchoolDegInfo.dlsiCourses.genEd" v-bind:key="index">
-                        <td>{{course}}</td>
-                        <td>{{chosenSchoolDegInfo.schoolCourses.equivCourses[index]}}</td>
+                    <tr v-for="(course,index) in chosenSchoolDegInfo.genEdCourses" v-bind:key="index">
+                        <td>{{course.dlsi}}</td>
+                        <td>{{course.school}}</td>
                     </tr>
                 </tbody>
               </table>
@@ -52,9 +52,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(course,index) in chosenSchoolDegInfo.dlsiCourses.electives" v-bind:key="index">
-                        <td>{{course}}</td>
-                        <td>{{chosenSchoolDegInfo.schoolCourses.genElectives[index]}}</td>
+                    <tr v-for="(course,index) in chosenSchoolDegInfo.genElectives" v-bind:key="index">
+                        <td>{{course.dlsi}}</td>
+                        <td>{{course.school}}</td>
                     </tr>
                 </tbody>
               </table>
@@ -71,7 +71,7 @@
             </div>
             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
               <div class="card-body">
-                <p>{{this.chosenSchoolDegInfo.admReq}}</p>
+                <p>{{chosenSchoolDegInfo.admReq}}</p>
               </div>
             </div>
           </div>
@@ -85,7 +85,7 @@
             </div>
             <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
               <div class="card-body">
-                <p v-for="(req, index) in chosenSchoolDegInfo.transferReq" v-bind:key=index>{{chosenSchoolDegInfo.transferReq[index]}}</p>
+                <p>{{chosenSchoolDegInfo.transferReq}}</p>
               </div>
             </div>
           </div>

@@ -14,6 +14,10 @@
       <router-link class="nav-item nav-link" :to="{ name: 'AddDegree' }">Add Degree</router-link>
       <router-link class="nav-item nav-link" :to="{ name: 'AddDegReq' }">Add Degree Requirements</router-link>
     </div>
+    <div class="custom-control custom-switch ml-3">
+      <input type="checkbox" class="custom-control-input" id="customSwitch1">
+      <label class="custom-control-label text-white" for="customSwitch1">Edit Mode</label>
+  </div>
   </div>
 </nav>
     

@@ -75,7 +75,8 @@ export default {
             },
             chosenSchool: null,
             schoolsDegInfo: [],
-            chosenSchoolDegInfo: null
+            chosenSchoolDegInfo: null,
+            chosenDegType: null
         }
     },
     methods: {
@@ -127,6 +128,8 @@ export default {
             // This removes other degrees from the screen
             this.degreesOffered = [...this.chosenDegree]
 
+            this.chosenDegType = payload.degreeType
+
             // pass schools offering into state to be passed to school selector component
             this.schoolsOffering = payload.degree.offeredBy[payload.degreeType]
 
@@ -140,7 +143,8 @@ export default {
             // query db to get schools info for that degree
             // update this to match new degree schema
             await db.collection('degrees').doc(this.chosenDegree[0].degreeId)
-                    .collection('schoolsOffering').doc(this.chosenSchool).get()
+                    .collection('schoolsOffering').doc(this.chosenSchool)
+                    .collection('type').doc(this.chosenDegType).get()
                         .then((snapshot) => {
                             // console.log(snapshot.data())
                             this.chosenSchoolDegInfo = snapshot.data()
