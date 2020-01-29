@@ -9,6 +9,9 @@ import db from '@/firebase/init'
 
 export default {
     name: "DegreeDropdown",
+    props: [
+        "preselectedDegree"
+    ],
     data(){
         return {
             degrees: [],
@@ -21,6 +24,7 @@ export default {
         }
     },
     beforeMount() {
+        
         // get degree list from db to populate dropdown
         db.collection('degrees').get()
             .then((snapshot) => {

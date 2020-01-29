@@ -36,7 +36,7 @@
                         <input type="checkbox" class="form-check-input" :value="school" v-model="offeredBy.bachelors">
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Add Degree 🚀</button>
+                <button class="btn btn-primary" type="submit">Submit Changes 🚀</button>
             </form>
         </div>
         </div>

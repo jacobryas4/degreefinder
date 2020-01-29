@@ -1,16 +1,21 @@
 <template>
 
-    <div class="col-md-10 mt-5 text-left">
-        <h3>Add Degree Requirents</h3>
+    <div class="col-md-10 mt-5 text-left" v-if="!loading">
+        <h3>Edit Degree Requirents</h3>
+        <p>Please select school and degree type (Associates or Bachelors) to continue</p>
         <form action="#">
             <div class="form-row m-3">
                 <div class="col">
                     <label for="inputDegree">Degree</label>
-                    <DegreeDropdown v-on:degreeSelected="updateDegree($event)"/>
+                    <select class="form-control" id="inputDegree" disabled>
+                        <option :value="selectedDegree" selected>{{selectedDegree}}</option>
+                    </select>
                 </div>
                 <div class="col">
                     <label for="inputSchool">School</label>
-                    <SchoolDropdown v-on:schoolSelected="updateSchool($event)"/>
+                    <select class="form-control" id="inputSchool" :disabled="!schoolsOffering">
+                        <option v-for="(school,index) in schoolsOffering" :value="school" :key="index">{{school}}</option>
+                    </select>
                 </div>
             </div>
             <div class="form-row m-3">
@@ -20,6 +25,7 @@
                             id="associatesRadio" 
                             value="associates" 
                             name="degreeType" 
+                            @click="degreeTypeSelected('associates')"
                             v-model="degreeType">
                     <label for="associatesRadio" class="form-check-label">Associates</label>
                 </div>
@@ -29,48 +35,51 @@
                             id="bachelorsRadio" 
                             value="bachelors" 
                             name="degreeType"
+                            @click="degreeTypeSelected('bachelors')"
                             v-model="degreeType">
                     <label for="bachelorsRadio" class="form-check-label">Bachelors</label>
                 </div>
             </div>
-            <div class="form-row m-3">
-                <div class="form-group col-md-12">
-                    <label for="admReq">Admission Requirements</label>
-                    <textarea id="admReq" cols="20" rows="3" class="form-control" v-model="admReqs"></textarea>
+            <div v-if="degreeType">
+                <div class="form-row m-3">
+                    <div class="form-group col-md-12">
+                        <label for="admReq">Admission Requirements</label>
+                        <textarea id="admReq" cols="20" rows="3" class="form-control" v-model="admReqs"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row m-3">
-                <div class="form-group col-md-12">
-                    <label for="transferReq">Transfer Requirements</label>
-                    <textarea id="transferReq" cols="20" rows="3" class="form-control" v-model="transferReqs"></textarea>
+                <div class="form-row m-3">
+                    <div class="form-group col-md-12">
+                        <label for="transferReq">Transfer Requirements</label>
+                        <textarea id="transferReq" cols="20" rows="3" class="form-control" v-model="transferReqs"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row m-3">
-                <div class="form-group col-md-12">
-                    <label for="coreCourses">School Core Courses (enter courses separated by comma ex: BIOL 101, MATH 120, etc.</label>
-                    <textarea id="coreCourses" cols="30" rows="3" class="form-control" v-model="coreCourses"></textarea>
+                <div class="form-row m-3">
+                    <div class="form-group col-md-12">
+                        <label for="coreCourses">School Core Courses (enter courses separated by comma ex: BIOL 101, MATH 120, etc.</label>
+                        <textarea id="coreCourses" cols="30" rows="3" class="form-control" v-model="coreCourses"></textarea>
+                    </div>
                 </div>
+                <EquivCourseInput v-on:modifiedCourses="updateGenEdCourses($event)" title="Gen Ed Courses" />
+                <EquivCourseInput v-on:modifiedCourses="updateGenElectives($event)" title="General Electives" />
             </div>
-            <EquivCourseInput v-on:modifiedCourses="updateGenEdCourses($event)" title="Gen Ed Courses"/>
-            <EquivCourseInput v-on:modifiedCourses="updateGenElectives($event)" title="General Electives"/>
         </form>
-        <button class="btn btn-primary m-3" @click="SubmitDegreeReqs">Submit</button>
+        <button class="btn btn-primary m-3" @click="SubmitDegreeReqs" v-if="selected">Submit</button>
     </div>
     
 </template>
 
 <script>
 import db from '@/firebase/init'
-import SchoolDropdown from '@/components/UI/SchoolDropdown'
 import DegreeDropdown from '@/components/UI/DegreeDropdown'
 import EquivCourseInput from '@/components/UI/EquivCourseInput'
+import Spinner from '@/components/UI/Spinner'
 
 export default {
     name: "EditDegReq",
     components: {
-        SchoolDropdown,
         DegreeDropdown,
-        EquivCourseInput
+        EquivCourseInput,
+        Spinner
     },
     data() {
         return {
@@ -81,7 +90,11 @@ export default {
             degreeType: null,
             admReqs: "",
             transferReqs: "",
-            coreCourses: ""
+            coreCourses: "",
+            selected: false,
+            schoolsOffering: null,
+            loading: true,
+            degreeObj: null
         }
     },
     methods: {
@@ -90,6 +103,9 @@ export default {
         updateDegree(degree) { this.selectedDegree = degree },
         updateGenEdCourses(courses) { this.genEdCourses = [...courses] },
         updateGenElectives(courses) { this.genElectives = [...courses] },
+        degreeTypeSelected(type) { 
+            this.schoolsOffering = this.degreeObj.offeredBy[type]
+        },
         // push to db
         async SubmitDegreeReqs() {
 
@@ -126,6 +142,10 @@ export default {
             .then(snapshot => {
                 snapshot.forEach(doc => {
                     console.log(doc.data())
+                    this.selectedDegree = doc.data().degreeName
+                    this.degreeObj = doc.data()
+                    console.log(`Doc ID is => ${doc.id}`)
+                    this.loading = !this.loading
                 })
             })
     }
