@@ -2,7 +2,7 @@
 
     <div class="col-md-10 mt-5 text-left" v-if="!loading">
         <h3>Edit Degree Requirents</h3>
-        <p>Please select school and degree type (Associates or Bachelors) to continue</p>
+        <p>Please select a degree type first (Associates or Bachelors) and then a school to continue</p>
         <form action="#">
             <div class="form-row m-3">
                 <div class="col">
@@ -13,7 +13,10 @@
                 </div>
                 <div class="col">
                     <label for="inputSchool">School</label>
-                    <select class="form-control" id="inputSchool" :disabled="!schoolsOffering">
+                    <select class="form-control" id="inputSchool" 
+                        :disabled="!schoolsOffering"
+                        @change="handleSchoolChange($event)">
+                        <option disabled selected value>Please select a school</option>
                         <option v-for="(school,index) in schoolsOffering" :value="school" :key="index">{{school}}</option>
                     </select>
                 </div>
@@ -40,7 +43,7 @@
                     <label for="bachelorsRadio" class="form-check-label">Bachelors</label>
                 </div>
             </div>
-            <div v-if="degreeType">
+            <div v-if="selectedSchool">
                 <div class="form-row m-3">
                     <div class="form-group col-md-12">
                         <label for="admReq">Admission Requirements</label>
@@ -59,6 +62,7 @@
                         <textarea id="coreCourses" cols="30" rows="3" class="form-control" v-model="coreCourses"></textarea>
                     </div>
                 </div>
+                
                 <EquivCourseInput v-on:modifiedCourses="updateGenEdCourses($event)" title="Gen Ed Courses" />
                 <EquivCourseInput v-on:modifiedCourses="updateGenElectives($event)" title="General Electives" />
             </div>
@@ -99,12 +103,27 @@ export default {
     },
     methods: {
         // event handlers for child components
-        updateSchool(school) { this.selectedSchool = school },
         updateDegree(degree) { this.selectedDegree = degree },
         updateGenEdCourses(courses) { this.genEdCourses = [...courses] },
         updateGenElectives(courses) { this.genElectives = [...courses] },
         degreeTypeSelected(type) { 
             this.schoolsOffering = this.degreeObj.offeredBy[type]
+        },
+        handleSchoolChange(event) {
+            this.selectedSchool = event.target.value
+
+            db.collection('degrees').doc(this.degreeObj.degreeName)
+                .collection('schoolsOffering').doc(this.selectedSchool)
+                .collection('type').doc(this.degreeType).get()
+                    .then(doc => {
+                        console.log(doc.data())
+                        this.admReqs = doc.data().admReq
+                        this.transferReqs = doc.data().transferReq
+                        this.coreCourses = doc.data().coreCourses.join()
+
+                    })
+
+            console.log(event.target.value)
         },
         // push to db
         async SubmitDegreeReqs() {
@@ -126,7 +145,7 @@ export default {
             // push it to firebase
             await db.collection('degrees').doc(this.selectedDegree.degreeId)
                     .collection('schoolsOffering').doc(this.selectedSchool)
-                    .collection('type').doc(this.degreeType).set(degReqObj)
+                    .collection('type').doc(this.degreeType).set(this.degReqObj)
                         .then(() => {
                             this.$router.push({ name: 'Index' })
                         }).catch(err => {
