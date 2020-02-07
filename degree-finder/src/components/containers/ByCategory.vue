@@ -126,7 +126,8 @@ export default {
 
             // set degreesOffered to only have the chosen degree
             // This removes other degrees from the screen
-            this.degreesOffered = [...this.chosenDegree]
+            // temporarily disabled By Jacob B on 2/6/2019
+            // this.degreesOffered = [...this.chosenDegree]
 
             this.chosenDegType = payload.degreeType
 
