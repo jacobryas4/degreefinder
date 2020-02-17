@@ -9,6 +9,7 @@ import AddDegReq from '@/components/containers/AddDegReq'
 import EditDegree from '@/components/containers/EditDegree'
 import EditDegreeReq from '@/components/containers/EditDegreeReq'
 import DegreeInfo from '@/components/containers/DegreeInfo'
+import SignUp from '@/components/UI/SignUp'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/degrees/:degree_slug/:school_slug',
       name: 'DegreeInfo',
       component: DegreeInfo
+    },
+    {
+      path: '/sign-up',
+      name: 'SignUp',
+      component: SignUp
     }
   ]
 })
