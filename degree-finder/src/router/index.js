@@ -12,9 +12,11 @@ import DegreeInfo from '@/components/containers/DegreeInfo'
 import SignUp from '@/components/UI/SignUp'
 import Login from '@/components/UI/Login'
 
+import firebase from 'firebase'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -39,22 +41,34 @@ export default new Router({
     {
       path: '/add-degree',
       name: 'AddDegree',
-      component: AddDegree
+      component: AddDegree,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/add-degree-reqs',
       name: 'AddDegReq',
-      component: AddDegReq
+      component: AddDegReq,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/edit-degree/:degree_slug',
       name: 'EditDegree',
-      component: EditDegree
+      component: EditDegree,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/edit-degree-reqs/:degree_slug',
       name: 'EditDegreeReq',
-      component: EditDegreeReq
+      component: EditDegreeReq,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/degrees/:degree_slug/:school_slug',
@@ -73,3 +87,20 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // check to see if route requires auth
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
+    // check auth state of user
+    let user = firebase.auth().currentUser
+    if (user) {
+      next()
+    } else {
+      next({ name: 'Login' })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router
