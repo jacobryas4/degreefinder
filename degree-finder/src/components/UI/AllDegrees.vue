@@ -3,7 +3,7 @@
     <div>
         <DegreeSelector
             v-bind:degreesOffered="degrees"
-            v-bind:editMode="true"
+            v-bind:editMode="signedIn"
             v-on:degreeSelected="updateDegree($event)"
             sectionTitle="All Degrees" />
     </div>
@@ -13,6 +13,7 @@
 <script>
 import db from '@/firebase/init'
 import DegreeSelector from '@/components/UI/DegreeSelector'
+import firebase from 'firebase'
 
 export default {
     name: 'AllDegrees',
@@ -21,7 +22,8 @@ export default {
     },
     data() {
         return {
-            degrees: []
+            degrees: [],
+            signedIn: false
         }
     },
     methods: {
@@ -30,6 +32,8 @@ export default {
         }
     },
     beforeMount() {
+        if (firebase.auth().currentUser) { this.signedIn = true }
+
         db.collection('degrees').get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {

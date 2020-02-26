@@ -10,6 +10,7 @@ import EditDegree from '@/components/containers/EditDegree'
 import EditDegreeReq from '@/components/containers/EditDegreeReq'
 import DegreeInfo from '@/components/containers/DegreeInfo'
 import SignUp from '@/components/UI/SignUp'
+import Login from '@/components/UI/Login'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ export default new Router({
       path: '/sign-up',
       name: 'SignUp',
       component: SignUp
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })
