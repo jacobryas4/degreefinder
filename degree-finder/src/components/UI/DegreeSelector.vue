@@ -8,21 +8,29 @@
                     v-bind:key="degree.degreeName">
                     <h5>{{degree.degreeName}}</h5>
                         <div v-if="!editMode">
-                            <button type="button" class="btn btn-primary" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree,'bachelors')">
-                                Bachelors <span class="badge badge-light mr-1">{{degree.offeredBy.bachelors.length}}</span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item" 
-                                    v-for="(school,index) in degree.offeredBy.bachelors"
-                                    v-bind:key="index"
-                                    @click.prevent="degreeSelected(school, 'bachelors')">{{school}}</a>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" v-if="degree.offeredBy.bachelors" data-toggle="dropdown">
+                                    Bachelors <span class="badge badge-light mr-1">{{degree.offeredBy.bachelors.length}}</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item" 
+                                        v-for="(school,index) in degree.offeredBy.bachelors"
+                                        v-bind:key="index"
+                                        @click.prevent="degreeSelected(school, 'bachelors')">{{school}}</a>
+                                </div>
                             </div>
-                            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspoup="true" aria-expanded="false">
-                                Bachelors <span class="badge badge-light">{{degree.offeredBy.bachelors.length}}</span>
-                            </button>
-                            <button type="button" class="btn btn-secondary" v-if="degree.offeredBy.associates" @click.prevent="degreeSelected(degree, 'associates')">
-                                Associates <span class="badge badge-light">{{degree.offeredBy.associates.length}}</span>
-                            </button>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" v-if="degree.offeredBy.associates" data-toggle="dropdown">
+                                    Associates <span class="badge badge-light mr-1">{{degree.offeredBy.associates.length}}</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item" 
+                                        v-for="(school,index) in degree.offeredBy.associates"
+                                        v-bind:key="index"
+                                        @click.prevent="degreeSelected(school, 'associates')">{{school}}</a>
+                                </div>
+                            </div>
                         </div>
                         <div v-if="editMode">
                             <button type="button" class="btn btn-light" v-if="degree.offeredBy.bachelors" @click.prevent="degreeSelected(degree)">
