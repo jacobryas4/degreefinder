@@ -6,6 +6,8 @@
             v-bind:editMode="signedIn"
             v-on:degreeSelected="updateDegree($event)"
             sectionTitle="All Degrees" />
+
+      
     </div>
     
 </template>
@@ -37,7 +39,11 @@ export default {
         db.collection('degrees').get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    this.degrees.push(doc.data())
+                    let degreeObj = {
+                        ...doc.data(),
+                        id: doc.id
+                    }
+                    this.degrees.push(degreeObj)
                 })
             })
     }

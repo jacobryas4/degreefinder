@@ -13,10 +13,14 @@
                                     Bachelors <span class="badge badge-light mr-1">{{degree.offeredBy.bachelors.length}}</span>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item" 
+                                    <!-- <a href="#" class="dropdown-item" 
                                         v-for="(school,index) in degree.offeredBy.bachelors"
                                         v-bind:key="index"
-                                        @click.prevent="degreeSelected(school, 'bachelors')">{{school}}</a>
+                                        @click.prevent="degreeSelected(school, 'bachelors')">{{school}}</a> -->
+                                        <router-link class="dropdown-item" 
+                                            :to="{name: 'DegreeInfo', params:{ school_slug:'liberty-university', degree_slug: degree.slug}}"
+                                            v-for="(school,index) in degree.offeredBy.bachelors"
+                                            :key="index">{{school}}</router-link>
                                 </div>
                             </div>
 
