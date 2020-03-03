@@ -18,7 +18,7 @@
                                         v-bind:key="index"
                                         @click.prevent="degreeSelected(school, 'bachelors')">{{school}}</a> -->
                                         <router-link class="dropdown-item" 
-                                            :to="{name: 'DegreeInfo', params:{ school_slug:'liberty-university', degree_slug: degree.slug}}"
+                                            :to="{name: 'DegreeInfo', params:{ school_slug:'liberty-university', degree_id: degree.id}}"
                                             v-for="(school,index) in degree.offeredBy.bachelors"
                                             :key="index">{{school}}</router-link>
                                 </div>

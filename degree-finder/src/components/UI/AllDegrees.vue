@@ -16,6 +16,7 @@
 import db from '@/firebase/init'
 import DegreeSelector from '@/components/UI/DegreeSelector'
 import firebase from 'firebase'
+import slugify from 'slugify'
 
 export default {
     name: 'AllDegrees',

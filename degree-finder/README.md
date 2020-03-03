@@ -23,4 +23,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 need masters, concentration & specialization, state restrictions
 
-Need to make DegreeInfo component more modular by accepting query params instead of relying on props
+Instead of relying on router-links in DegreeSelector, we should use programmatic routing

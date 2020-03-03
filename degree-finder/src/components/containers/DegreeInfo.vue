@@ -105,7 +105,9 @@
     name: "DegreeInfo",
     props: ["chosenSchoolDegInfo", "degreeName", "schoolName"],
     data() {
-      return {};
+      return {
+
+      }
     }
   };
 
