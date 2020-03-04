@@ -13,14 +13,11 @@
                                     Bachelors <span class="badge badge-light mr-1">{{degree.offeredBy.bachelors.length}}</span>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <!-- <a href="#" class="dropdown-item" 
+                                    <a href="#" class="dropdown-item" 
                                         v-for="(school,index) in degree.offeredBy.bachelors"
                                         v-bind:key="index"
-                                        @click.prevent="degreeSelected(school, 'bachelors')">{{school}}</a> -->
-                                        <router-link class="dropdown-item" 
-                                            :to="{name: 'DegreeInfo', params:{ school_slug:'liberty-university', degree_id: degree.id}}"
-                                            v-for="(school,index) in degree.offeredBy.bachelors"
-                                            :key="index">{{school}}</router-link>
+                                        @click.prevent="degreeSelected(school, degree.id, 'bachelors')">{{school}}</a>
+                                        
                                 </div>
                             </div>
 
@@ -55,6 +52,8 @@
 </template>
 
 <script>
+import db from '@/firebase/init'
+import slugify from 'slugify'
 
 export default {
     name: 'DegreeSelector',
@@ -72,13 +71,13 @@ export default {
         }
     },
     methods: {
-        degreeSelected(degree, degreeType) {
-            console.log(degree)
-            let payload = {
-                degreeType,
-                degree
-            }
-            this.$emit('degreeSelected', payload)
+        degreeSelected(school, id, degreeType) {
+            let schoolSlug = slugify(school, { lower: true })
+
+
+            this.$router.push({
+                path: `/degrees/${id}/${schoolSlug}/${degreeType}`
+            })
         }
     }
 } 

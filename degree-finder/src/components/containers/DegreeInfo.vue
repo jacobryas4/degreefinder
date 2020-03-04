@@ -100,14 +100,28 @@
 
 <script>
   import db from '@/firebase/init'
+  import unslug from 'unslug'
 
   export default {
     name: "DegreeInfo",
-    props: ["chosenSchoolDegInfo", "degreeName", "schoolName"],
+    props: ["degreeName", "schoolName"],
     data() {
       return {
-
+        chosenSchoolDegInfo: {}
       }
+    },
+    beforeMount() {
+        let school = unslug(this.$route.params.school_slug)
+        let degreeId = this.$route.params.degree_id
+        let type = this.$route.params.degree_type
+
+        console.log(school, degreeId, type)
+        
+        db.collection('degrees').doc(degreeId)
+          .collection('schoolsOffering').doc(school)
+          .collection('type').doc(type).get().then( doc => {
+            this.chosenSchoolDegInfo = {...doc.data()}
+          })
     }
   };
 

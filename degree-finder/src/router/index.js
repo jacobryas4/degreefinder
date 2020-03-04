@@ -71,7 +71,7 @@ const router = new Router({
       }
     },
     {
-      path: '/degrees/:degree_id/:school_slug',
+      path: '/degrees/:degree_id/:school_slug/:degree_type',
       name: 'DegreeInfo',
       component: DegreeInfo
     },
