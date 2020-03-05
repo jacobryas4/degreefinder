@@ -29,7 +29,7 @@
                                     <a href="#" class="dropdown-item" 
                                         v-for="(school,index) in degree.offeredBy.associates"
                                         v-bind:key="index"
-                                        @click.prevent="degreeSelected(school, 'associates')">{{school}}</a>
+                                        @click.prevent="degreeSelected(school, degree.id, 'associates')">{{school}}</a>
                                 </div>
                             </div>
                         </div>
@@ -72,12 +72,14 @@ export default {
     },
     methods: {
         degreeSelected(school, id, degreeType) {
-            let schoolSlug = slugify(school, { lower: true })
+            let payload = {
+                school,
+                id,
+                degreeType
+            }
 
-
-            this.$router.push({
-                path: `/degrees/${id}/${schoolSlug}/${degreeType}`
-            })
+            this.$emit('degreeSelected', payload)
+            
         }
     }
 } 

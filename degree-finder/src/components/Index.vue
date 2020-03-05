@@ -22,7 +22,7 @@
 <script>
 import Spinner from '@/components/UI/Spinner'
 import AddDegree from '@/components/containers/AddDegree'
-import AllDegrees from '@/components/UI/AllDegrees'
+import AllDegrees from '@/components/containers/AllDegrees'
 import db from '@/firebase/init'
 
 export default {

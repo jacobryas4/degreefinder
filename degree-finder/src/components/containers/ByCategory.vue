@@ -23,19 +23,9 @@
                 <br>
 
                 <transition name="fade">
-                    <SchoolSelector 
-                        v-if="showSchoolSelector && !chosenSchoolDegInfo"
-                        v-bind:schoolsOffering="schoolsOffering"
-                        v-on:schoolSelected="updateSchool($event)" />
-                </transition>
-                
-                <br>
-
-                <transition name="fade">
                     <DegreeInfo
                         v-if="chosenSchoolDegInfo"
                         v-bind:chosenSchoolDegInfo="chosenSchoolDegInfo"
-                        v-bind:degreeName="chosenDegree[0].degreeName"
                         v-bind:schoolName="chosenSchool" />
                 </transition>
                 
@@ -96,7 +86,7 @@ export default {
                         // console.log(doc.data())
                         // console.log(doc.id)
                         let degree = {  
-                            degreeId: doc.id,
+                            id: doc.id,
                             ...doc.data()
                         }
                         this.degreesOffered.push(degree)
@@ -115,27 +105,19 @@ export default {
             this.showSchoolSelector = false
             
         },
-        updateDegree(payload) {
-            // filter through degrees to get data for the chosen one
-            this.chosenDegree = this.degreesOffered.filter((item) => {
-                return item.degreeName === payload.degree.degreeName
-            })
-
-            console.log(payload.degreeType)
-            console.log(payload.degree)
-
-            // set degreesOffered to only have the chosen degree
-            // This removes other degrees from the screen
-            // temporarily disabled By Jacob B on 2/6/2019
-            // this.degreesOffered = [...this.chosenDegree]
-
-            this.chosenDegType = payload.degreeType
-
-            // pass schools offering into state to be passed to school selector component
-            this.schoolsOffering = payload.degree.offeredBy[payload.degreeType]
-
-            // show the school selector
-            this.showSchoolSelector = true
+        async updateDegree(payload) {
+            this.chosenSchool = payload.school
+            
+            // query db for updated degree information
+            await db.collection('degrees').doc(payload.id)
+                    .collection('schoolsOffering').doc(payload.school)
+                    .collection('type').doc(payload.degreeType)
+                    .get().then(doc => {
+                        this.chosenSchoolDegInfo = {...doc.data()}
+                        this.degreeSelected = true
+                    }).catch(err => {
+                        console.log(err)
+                    })
         },
         async updateSchool(school) {
             // set chosenSchool in state
